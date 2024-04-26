@@ -53,18 +53,5 @@ def scores_by_page(page=0, team=None):
                 LIMIT 50
                 OFFSET :off
                 """
-         if team is not None:
-             query = """
-                SELECT CONCAT(away.location, ' ', away.mascot) AS away_team, 
-                CONCAT(home.location, ' ', home.mascot) AS home_team, 
-                away_score, home_score, gamedate 
-                FROM mlbscores3 
-                INNER JOIN teams AS away ON mlbscores3.away_team = away.id 
-                INNER JOIN teams AS home ON mlbscores3.home_team = home.id
-                WHERE home.abbreviation ~* :team OR away.abbreviation ~* :team
-                ORDER BY gamedate
-                LIMIT 50
-                OFFSET :off
-                """
         res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
         return [r._asdict() for r in res]
