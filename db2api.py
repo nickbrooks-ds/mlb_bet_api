@@ -69,3 +69,19 @@ def scores_by_page(page=0, team=None):
         res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
         return [r._asdict() for r in res]
 
+@app.get("/teamscores/{page}")
+def scores_by_page(team='ari'):
+     with eng.connect() as con:
+        query = """
+                SELECT CONCAT(away.location, ' ', away.mascot) AS away_team, 
+                CONCAT(home.location, ' ', home.mascot) AS home_team, 
+                away_score, home_score, gamedate 
+                FROM mlbscores3 
+                INNER JOIN teams AS away ON mlbscores3.away_team = away.id 
+                INNER JOIN teams AS home ON mlbscores3.home_team = home.id
+                WHERE home.abbreviation ILIKE :team OR away.abbreviation ILIKE :team
+                ORDER BY gamedate
+                """
+        res = con.execute(text(query), {'team' : team})
+        return [r._asdict() for r in res]
+
