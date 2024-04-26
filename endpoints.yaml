@@ -2,3 +2,4 @@
 /tz: SHOW TIMEZONE
 /scores: SELECT CONCAT(away.location, ' ', away.mascot) AS away_team, CONCAT(home.location, ' ', home.mascot) AS home_team, away_score, home_score, gamedate FROM mlbscores3 INNER JOIN teams AS away ON mlbscores3.away_team = away.id INNER JOIN teams AS home ON mlbscores3.home_team = home.id;
 /teams: SELECT abbreviation, teams.location, mascot, league.league, division.location AS division FROM teams INNER JOIN divisions AS division ON teams.division = division.id INNER JOIN leagues AS league ON teams.league = league.id;
+/lines: SELECT away_team, home_team, game_time AS game_start_time, mkt AS bookmaker, home_spread, home_price, away_spread, away_price FROM mytable;
