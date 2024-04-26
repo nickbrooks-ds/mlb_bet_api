@@ -85,3 +85,16 @@ def scores_by_page(team='ari'):
         res = con.execute(text(query), {'team' : team})
         return [r._asdict() for r in res]
 
+@app.get("/teamlines/{team}")
+def scores_by_page(team=ari):
+     with eng.connect() as con:
+        query = """
+                SELECT away_team, home_team, game_time AS game_start_time, mkt AS bookmaker, 
+                home_spread, home_price, away_spread, away_price FROM mytable
+                INNER JOIN teams AS away ON mytable.away_team = CONCAT(away.location, ' ', away.mascot)
+                INNER JOIN teams AS home ON mytable.home_team = CONCAT(home.location, ' ', home.mascot)
+                WHERE home.abbreviation ILIKE :team OR away.abbreviation ILIKE :team
+                ORDER BY game_start_time
+                """
+        res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
+        return [r._asdict() for r in res]
