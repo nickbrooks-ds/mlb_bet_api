@@ -66,5 +66,5 @@ def scores_by_page(page=0, team=None):
                 LIMIT 50
                 OFFSET :off
                 """
-        res = con.execute(text(query), {'off': 50*int(page)})
+        res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
         return [r._asdict() for r in res]
