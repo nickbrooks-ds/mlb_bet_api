@@ -66,7 +66,7 @@ def scores_by_team(team):
                 FROM mlbscores3 
                 INNER JOIN teams AS away ON mlbscores3.away_team = away.id 
                 INNER JOIN teams AS home ON mlbscores3.home_team = home.id
-                WHERE home.abbreviation ILIKE :team OR away.abbreviation ILIKE :team;
+                WHERE home.abbreviation ~* :team OR away.abbreviation ~* :team;
                 ORDER BY gamedate
                 """
         res = con.execute(text(query), {'team': team})
