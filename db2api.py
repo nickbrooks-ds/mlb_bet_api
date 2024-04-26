@@ -49,6 +49,7 @@ def movies_by_page(page):
                 FROM mlbscores3 
                 INNER JOIN teams AS away ON mlbscores3.away_team = away.id 
                 INNER JOIN teams AS home ON mlbscores3.home_team = home.id
+                ORDER BY gamedate
                 LIMIT 50
                 OFFSET :off
                 """
