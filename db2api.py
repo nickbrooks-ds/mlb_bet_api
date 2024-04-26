@@ -55,3 +55,17 @@ def scores_by_page(page=0, team=None):
                 """
         res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
         return [r._asdict() for r in res]
+
+@app.get("/lines/{page}")
+def scores_by_page(page=0, team=None):
+     with eng.connect() as con:
+        query = """
+                SELECT away_team, home_team, game_time AS game_start_time, mkt AS bookmaker, 
+                home_spread, home_price, away_spread, away_price FROM mytable
+                ORDER BY game_start_time
+                LIMIT 50
+                OFFSET :off
+                """
+        res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
+        return [r._asdict() for r in res]
+
