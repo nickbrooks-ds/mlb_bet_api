@@ -70,7 +70,7 @@ def scores_by_page(page=0, team=None):
         return [r._asdict() for r in res]
 
 @app.get("/teamscores/{team}")
-def scores_by_page(team='ari'):
+def scores_by_page(team):
      with eng.connect() as con:
         query = """
                 SELECT CONCAT(away.location, ' ', away.mascot) AS away_team, 
@@ -86,7 +86,7 @@ def scores_by_page(team='ari'):
         return [r._asdict() for r in res]
 
 @app.get("/teamlines/{team}")
-def scores_by_page(team=ari):
+def scores_by_page(team):
      with eng.connect() as con:
         query = """
                 SELECT away_team, home_team, game_time AS game_start_time, mkt AS bookmaker, 
