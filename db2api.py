@@ -69,7 +69,7 @@ def scores_by_page(page=0, team=None):
         res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
         return [r._asdict() for r in res]
 
-@app.get("/teamscores/{page}")
+@app.get("/teamscores/{team}")
 def scores_by_page(team='ari'):
      with eng.connect() as con:
         query = """
