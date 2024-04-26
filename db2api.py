@@ -39,13 +39,16 @@ with open("endpoints.yaml") as f:
 # Custom Endpoints
 #------------------------------------------------
 
-@app.get("/movies/{page}")
+@app.get("/scores/{page}")
 def movies_by_page(page):
      with eng.connect() as con:
         query = """
-                SELECT *
-                FROM movies
-                ORDER BY index
+                SELECT CONCAT(away.location, ' ', away.mascot) AS away_team, 
+                CONCAT(home.location, ' ', home.mascot) AS home_team, 
+                away_score, home_score, gamedate 
+                FROM mlbscores3 
+                INNER JOIN teams AS away ON mlbscores3.away_team = away.id 
+                INNER JOIN teams AS home ON mlbscores3.home_team = home.id
                 LIMIT 50
                 OFFSET :off
                 """
