@@ -96,5 +96,5 @@ def scores_by_page(team):
                 WHERE home.abbreviation ILIKE :team OR away.abbreviation ILIKE :team
                 ORDER BY game_start_time
                 """
-        res = con.execute(text(query), {'off': 50*int(page), 'team' : team})
+        res = con.execute(text(query), {'team' : team})
         return [r._asdict() for r in res]
